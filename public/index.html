@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ANU Life Cards</title>
+<meta name="description" content="Make your own flip-book business card that opens on any phone. Call, text, email and save-contact buttons, your photo and video. $9.99 a month, or $75 one time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+:root{
+  --bg:#0d0906; --bench:#16100a; --card:#1f160d; --line:#4a3820; --ink:#f5ead2; --muted:#c3ad85;
+  --gold:#e3b24f; --gold-2:#f6d27a; --gold-ink:#1b1209; --bad:#ff7a66; --ok:#8fd19e;
+  --display:"Marcellus","Trajan Pro",Georgia,serif; --body:"Source Sans 3","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 var(--body)}
+a{color:var(--gold-2)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 max(18px,env(safe-area-inset-right,0px)) 0 max(18px,env(safe-area-inset-left,0px))}
+header.top{border-bottom:1px solid var(--line);background:var(--bench)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px}
+.brand{font:400 1.35rem var(--display);letter-spacing:.14em;color:var(--gold);text-decoration:none}
+.brand small{display:block;font:600 .72rem var(--body);letter-spacing:.2em;color:var(--muted)}
+.hero{padding-block:34px 14px;display:grid;gap:10px}
+.hero h1{font:400 clamp(1.9rem,4.5vw,3rem)/1.1 var(--display);margin:0;max-width:20ch;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p{margin:0;color:var(--muted);max-width:60ch;font-size:1.1rem}
+.price{display:inline-flex;align-items:baseline;gap:8px;margin-top:6px;padding:8px 14px;border:1px solid var(--gold);border-radius:999px;color:var(--gold-2);font-weight:700;width:max-content}
+.price span{color:var(--muted);font-weight:400}
+.notice{margin:8px 0 0;padding:12px 16px;border:1px solid var(--gold);border-radius:8px;background:#e3b24f14}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:28px;align-items:start;padding-block:18px 120px}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.preview-col{order:-1}}
+fieldset{border:1px solid var(--line);border-radius:10px;background:var(--bench);padding:18px;margin:0 0 16px;display:grid;gap:12px;min-width:0}
+legend{font:400 1.2rem var(--display);color:var(--gold);padding:0 8px;letter-spacing:.03em}
+legend b{display:inline-flex;width:28px;height:28px;align-items:center;justify-content:center;border-radius:50%;background:var(--gold);color:var(--gold-ink);font:700 .95rem var(--body);margin-right:8px}
+label{display:grid;gap:5px;font-weight:600;font-size:.95rem}
+label .hint{font-weight:400;color:var(--muted);font-size:.88rem}
+input[type=text],input[type=tel],input[type=email],input[type=url],textarea{width:100%;font:inherit;color:var(--ink);background:#0b0805;border:1px solid var(--line);border-radius:6px;padding:11px 12px}
+textarea{resize:vertical;min-height:84px}
+input:focus,textarea:focus{border-color:var(--gold)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.two{grid-template-columns:1fr}}
+.count{justify-self:end;font-size:.8rem;color:var(--muted);font-weight:400}
+.photo-pick{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.photo-pick .thumb{width:96px;height:120px;border-radius:48px 48px 6px 6px;border:2px solid var(--gold);background:#0b0805 center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.85rem;text-align:center;flex:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 18px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:600 1rem var(--body);cursor:pointer;text-decoration:none}
+.btn:hover{border-color:var(--gold)}
+.btn.gold{background:linear-gradient(var(--gold-2),var(--gold) 60%,#b8862c);color:var(--gold-ink);border-color:#6b4b14}
+.btn.big{min-height:56px;font-size:1.15rem;padding:12px 26px}
+.btn:disabled{opacity:.6;cursor:wait}
+.themes{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.theme{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:8px;cursor:pointer;font-weight:600}
+.theme input{accent-color:var(--gold)}
+.theme i{width:30px;height:30px;border-radius:50%;flex:none;border:2px solid}
+.theme:has(input:checked){border-color:var(--gold);background:#e3b24f14}
+.preview-col{position:sticky;top:14px;display:grid;gap:10px;justify-items:center}
+.phone{width:min(100%,360px);aspect-ratio:390/720;border-radius:34px;border:10px solid #2a1f14;box-shadow:0 20px 50px #000a;overflow:hidden;background:#000;position:relative}
+.phone iframe{position:absolute;left:0;top:0;width:390px;height:720px;border:0;transform-origin:0 0}
+.preview-col p{margin:0;color:var(--muted);font-size:.9rem;text-align:center}
+.paybar{position:fixed;left:0;right:0;bottom:0;background:var(--bench);border-top:1px solid var(--gold);z-index:5;padding-bottom:env(safe-area-inset-bottom,0px)}
+.paybar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-block:12px;flex-wrap:wrap}
+.paybar .msg{color:var(--muted);font-size:.95rem}
+.paybar .err{color:var(--bad);font-weight:600}
+.edit-links{display:flex;gap:10px;flex-wrap:wrap}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.plans{grid-template-columns:1fr}}
+.plan{display:grid;gap:6px;align-content:start;padding:16px;border:2px solid var(--line);border-radius:10px;cursor:pointer;background:#0b0805}
+.plan:has(input:checked){border-color:var(--gold);background:#e3b24f14}
+.plan .top{display:flex;align-items:center;gap:10px;font:400 1.25rem var(--display);color:var(--gold-2)}
+.plan input{accent-color:var(--gold);width:22px;height:22px;margin:0}
+.plan .amt{font:700 1.5rem var(--body);color:var(--ink)}
+.plan .amt span{font-size:1rem;font-weight:400;color:var(--muted)}
+.plan ul{margin:0;padding-left:20px;font-weight:400;color:var(--ink)}
+.plan .warn{color:var(--gold-2);font-weight:600;font-size:.92rem}
+.panel{border:1px solid var(--gold);border-radius:10px;background:var(--bench);padding:18px;display:grid;gap:12px;margin-top:8px}
+.panel h2{margin:0;font:400 1.3rem var(--display);color:var(--gold)}
+.cardrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#0b0805}
+.cardrow b{font-size:1.05rem}
+.cardrow .who{display:grid}
+.cardrow .who span{color:var(--muted);font-size:.9rem}
+.cardrow .acts{display:flex;gap:8px;flex-wrap:wrap}
+.cardrow .btn{min-height:42px;padding:8px 14px}
+.btn.danger{border-color:#7a3226;color:#ffb3a6}
+.linkbox{font-weight:700;word-break:break-all;background:#0b0805;border:1px solid var(--line);border-radius:6px;padding:10px 12px;user-select:all}
+fieldset:disabled input,fieldset:disabled textarea{opacity:.75}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;padding-block:22px 110px}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/">ANU LIFE CARDS<small>FLIP-BOOK BUSINESS CARDS</small></a>
+  <a href="#build" class="btn">Make my card</a>
+</div></header>
+
+<main class="wrap">
+  <section class="hero" id="heroNew">
+    <h1>Your business card, as a <em>flip book</em> that opens on any phone.</h1>
+    <p>Your photo, your video, and buttons to call, text, email and save your contact. Send it by text, share it anywhere, and update it whenever you like.</p>
+    <p class="price">$9.99 <span>a month, or</span> $75 <span>one time</span></p>
+    <p class="notice" id="backNote" hidden>Your payment wasn't finished. Your card is still here. Press <b>Continue to payment</b> when you're ready.</p>
+  </section>
+  <section class="hero" id="heroEdit" hidden>
+    <h1>Edit your card</h1>
+    <p>Change anything below and press <b>Save changes</b>. Your card's link stays the same.</p>
+    <div class="edit-links"><a class="btn" id="viewLink" target="_blank" rel="noopener">View my card</a><button class="btn" id="portalBtn" type="button">Payment or cancel</button><a class="btn" id="backMine" hidden>Back to my cards</a></div>
+    <div class="panel" id="lockNote" hidden><h2>This card can't be changed</h2><p style="margin:0">It was bought with the one-time payment, so it stays online just as it is. Share your card's link with anyone.</p></div>
+    <div class="panel" id="mine" hidden>
+      <h2>Your cards</h2>
+      <p style="margin:0;color:var(--muted)">Your plan includes your own card plus <b id="maxEx">5</b> extra cards for family, friends or another business. You can change all of them anytime.</p>
+      <div id="mineList" style="display:grid;gap:8px"></div>
+      <div><a class="btn gold" id="newExtra">Make a new card</a></div>
+    </div>
+  </section>
+  <section class="hero" id="heroExtra" hidden>
+    <h1>Make an extra card</h1>
+    <p>Fill in the card for your family member, friend or other business, then press <b>Create this card</b>. It's included in your monthly plan.</p>
+    <div class="edit-links"><a class="btn" id="backMine2">Back to my cards</a></div>
+    <div class="panel" id="madeBox" hidden>
+      <h2 id="madeTitle">The card is live!</h2>
+      <p style="margin:0">Card link, to share with anyone:</p><div class="linkbox" id="madeCard"></div>
+      <p style="margin:0">Its private edit link. Give this only to the person the card belongs to, if you want them to change it themselves. You can always change it from your own edit page.</p><div class="linkbox" id="madeEdit"></div>
+      <div class="edit-links"><a class="btn gold" id="madeOpen" target="_blank" rel="noopener">Open the card</a><button class="btn" type="button" data-copy="madeCard">Copy card link</button><button class="btn" type="button" data-copy="madeEdit">Copy edit link</button><button class="btn" type="button" id="madeAnother">Make another</button></div>
+    </div>
+  </section>
+
+  <div class="layout" id="build">
+    <form id="f" novalidate>
+      <fieldset><legend><b>1</b>Your photo</legend>
+        <div class="photo-pick">
+          <div class="thumb" id="thumb">No photo</div>
+          <div style="display:grid;gap:8px">
+            <label class="btn" for="photoIn" style="display:inline-flex">Choose a photo</label>
+            <input type="file" id="photoIn" accept="image/*" hidden>
+            <button class="btn" type="button" id="photoDel" hidden>Remove photo</button>
+            <span class="hint" style="color:var(--muted);font-size:.88rem">A clear, well-lit photo of your face works best.</span>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset><legend><b>2</b>Name and title</legend>
+        <div class="two">
+          <label>Name, in big letters <input type="text" name="name" maxlength="40" placeholder="Pharaoh" required></label>
+          <label>Second line <span class="hint">optional, e.g. full name</span><input type="text" name="subtitle" maxlength="60" placeholder="Rasili Amen Ptah"></label>
+        </div>
+        <label>Your title or business <input type="text" name="role" maxlength="70" placeholder="Founder, A.N.U. Life"></label>
+        <label>Short motto <span class="hint">optional</span><input type="text" name="tagline" maxlength="90" placeholder="Closing the wealth gap, together."></label>
+        <label>Website <span class="hint">optional</span><input type="url" name="website" maxlength="120" placeholder="anulife.com"></label>
+      </fieldset>
+
+      <fieldset><legend><b>3</b>How people reach you</legend>
+        <div class="two">
+          <label>Phone number <input type="tel" name="phone" maxlength="24" placeholder="+1 313 555 0100"></label>
+          <label>Email <input type="email" name="email" maxlength="80" placeholder="you@example.com"></label>
+        </div>
+      </fieldset>
+
+      <fieldset><legend><b>4</b>Your message and video</legend>
+        <label>Heading <input type="text" name="messageTitle" maxlength="50" placeholder="Why work with me"></label>
+        <label>Your message <span class="count" data-for="message"></span><textarea name="message" maxlength="420" placeholder="A few warm sentences about you and why people should do business with you."></textarea></label>
+        <label>YouTube video link <span class="hint">optional. Put your short video on YouTube and paste its link here.</span><input type="url" name="youtube" maxlength="200" placeholder="https://youtu.be/..."></label>
+      </fieldset>
+
+      <fieldset><legend><b>5</b>What you do</legend>
+        <label>Business or service name <input type="text" name="bizTitle" maxlength="50" placeholder="The ANU Network"></label>
+        <label>Describe it <span class="count" data-for="bizText"></span><textarea name="bizText" maxlength="320" placeholder="What you offer, in one or two sentences."></textarea></label>
+        <div class="two">
+          <label>Point 1 <input type="text" name="b1" maxlength="80"></label>
+          <label>Point 2 <input type="text" name="b2" maxlength="80"></label>
+          <label>Point 3 <input type="text" name="b3" maxlength="80"></label>
+          <label>Point 4 <input type="text" name="b4" maxlength="80"></label>
+        </div>
+        <div class="two">
+          <label>Button words <span class="hint">opens a text to you</span><input type="text" name="ctaText" maxlength="28" placeholder="Book a call"></label>
+          <label>Message it starts with <input type="text" name="ctaMessage" maxlength="160" placeholder="Hi, I saw your card and I'd like to talk."></label>
+        </div>
+      </fieldset>
+
+      <fieldset><legend><b>6</b>Social media <span style="font:400 .9rem var(--body);color:var(--muted)">(only the ones you use)</span></legend>
+        <div class="two">
+          <label>Facebook <input type="url" name="facebook" placeholder="facebook.com/yourpage"></label>
+          <label>Instagram <input type="url" name="instagram" placeholder="instagram.com/you"></label>
+          <label>LinkedIn <input type="url" name="linkedin" placeholder="linkedin.com/in/you"></label>
+          <label>TikTok <input type="url" name="tiktok" placeholder="tiktok.com/@you"></label>
+          <label>X (Twitter) <input type="url" name="x" placeholder="x.com/you"></label>
+          <label>YouTube channel <input type="url" name="youtubeChannel" placeholder="youtube.com/@you"></label>
+        </div>
+      </fieldset>
+
+      <fieldset><legend><b>7</b>Colors</legend>
+        <div class="themes" id="themes"></div>
+      </fieldset>
+    <fieldset id="planBox"><legend><b>8</b>Choose how to pay</legend>
+      <div class="plans">
+        <label class="plan"><span class="top"><input type="radio" name="plan" value="monthly" checked>Monthly</span>
+          <span class="amt">$9.99 <span>a month</span></span>
+          <ul><li>Change your card anytime, as often as you like</li><li>Make 5 more cards for family, friends or another business</li><li>Cancel anytime</li></ul></label>
+        <label class="plan"><span class="top"><input type="radio" name="plan" value="once">One time</span>
+          <span class="amt">$75 <span>once</span></span>
+          <ul><li>Your card stays online</li><li>No monthly bill</li></ul>
+          <span class="warn">The card can't be changed after you pay, so check every detail first.</span></label>
+      </div>
+    </fieldset>
+    </form>
+
+    <aside class="preview-col" aria-label="Live preview">
+      <div class="phone" id="phone"><iframe id="pv" title="Your card preview"></iframe></div>
+      <p>This is your card. Swipe or use the arrows to turn its pages.</p>
+    </aside>
+  </div>
+</main>
+
+<div class="paybar"><div class="wrap">
+  <span class="msg" id="msg">Your card updates as you type.</span>
+  <button class="btn gold big" id="go" type="button">Continue to payment — $9.99/month</button>
+</div></div>
+
+<footer class="wrap">ANU Life Cards · A.N.U. Life · Payments are handled securely by Stripe. Monthly cards can be cancelled anytime from the card's edit page.</footer>
+
+<script type="module">
+import { renderCard, THEMES } from '/card-template.js';
+const $ = id => document.getElementById(id), f = $('f');
+const q = new URLSearchParams(location.search), EDIT = q.get('s') && q.get('t') ? { s: q.get('s'), t: q.get('t') } : null;
+const OWNER = !EDIT && q.get('owner') && q.get('t') ? { s: q.get('owner'), t: q.get('t') } : null;
+const PRICE = { monthly: 'Continue to payment — $9.99/month', once: 'Continue to payment — $75 one time' };
+const plan = () => (f.querySelector('input[name=plan]:checked') || {}).value || 'monthly';
+let photo = '', photoChanged = false, removePhoto = false, busy = false;
+
+// colour choices
+$('themes').innerHTML = Object.entries(THEMES).map(([k, t], i) =>
+  `<label class="theme"><input type="radio" name="theme" value="${k}" ${i ? '' : 'checked'}><i style="background:${t.page};border-color:${t.accent}"></i>${t.label}</label>`).join('');
+
+function data(){
+  const d = {}; // read every field, even locked ones
+  for(const el of f.elements){ if(!el.name || el.type === 'file' || ((el.type === 'radio' || el.type === 'checkbox') && !el.checked)) continue; d[el.name] = el.value }
+  delete d.plan;
+  d.bullets = [d.b1, d.b2, d.b3, d.b4].map(s => (s || '').trim()).filter(Boolean);
+  delete d.b1; delete d.b2; delete d.b3; delete d.b4;
+  return d;
+}
+function fill(d){
+  for(const [k, v] of Object.entries(d)){ const el = f.elements[k]; if(el && typeof v === 'string'){ if(el instanceof RadioNodeList){ [...el].forEach(r => r.checked = r.value === v) } else el.value = v } }
+  (d.bullets || []).forEach((b, i) => { if(f.elements['b' + (i + 1)]) f.elements['b' + (i + 1)].value = b });
+}
+
+// live preview
+let pvT;
+function fitPhone(){ const w = $('phone').clientWidth; $('pv').style.transform = `scale(${w / 390})` }
+function preview(){ clearTimeout(pvT); pvT = setTimeout(() => {
+  const d = data(); $('pv').srcdoc = renderCard(d, { photoUrl: photo, preview: true });
+  document.querySelectorAll('.count').forEach(c => { const el = f.elements[c.dataset.for]; c.textContent = el.value.length + ' / ' + el.maxLength });
+  if(!EDIT && !OWNER){ try{ localStorage.setItem('anuCardDraft', JSON.stringify({ d, photo })) }catch{} }
+}, 250) }
+f.addEventListener('input', preview); f.addEventListener('change', preview);
+addEventListener('resize', fitPhone); fitPhone();
+
+// photo: shrink it in the browser before it is sent
+$('photoIn').onchange = async () => {
+  const file = $('photoIn').files[0]; $('photoIn').value = ''; if(!file) return;
+  try{
+    const bmp = await createImageBitmap(file), k = Math.min(1, 700 / Math.max(bmp.width, bmp.height));
+    const c = document.createElement('canvas'); c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+    c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+    photo = c.toDataURL('image/jpeg', 0.86); photoChanged = true; removePhoto = false; showThumb(); preview();
+  }catch{ say('That photo could not be opened. Please choose a JPG or PNG picture. (iPhone HEIC photos need to be saved as JPG first.)', true) }
+};
+$('photoDel').onclick = () => { photo = ''; photoChanged = false; removePhoto = true; showThumb(); preview() };
+function showThumb(){ const t = $('thumb'); t.style.backgroundImage = photo ? `url("${photo}")` : ''; t.textContent = photo ? '' : 'No photo'; $('photoDel').hidden = !photo }
+
+function say(m, err){ const el = $('msg'); el.textContent = m; el.className = err ? 'msg err' : 'msg' }
+async function post(url, body){
+  const r = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+  const j = await r.json().catch(() => ({})); if(!r.ok) throw new Error(j.error || 'Something went wrong. Please try again.'); return j;
+}
+
+$('go').onclick = async () => {
+  if(busy) return;
+  const d = data();
+  if(!d.name.trim()){ say('Please type the name to show on your card (step 2).', true); f.elements.name.focus(); return }
+  if(!d.phone.trim() && !d.email.trim()){ say('Please add a phone number or an email (step 3).', true); f.elements.phone.focus(); return }
+  busy = true; $('go').disabled = true;
+  try{
+    if(EDIT){
+      say('Saving…');
+      await post('/api/update', { s: EDIT.s, t: EDIT.t, card: d, photo: photoChanged ? photo : '', removePhoto });
+      photoChanged = false; removePhoto = false; say('Saved. Your card is updated.');
+    } else if(OWNER){
+      say('Creating the card…');
+      const j = await post('/api/extra', { s: OWNER.s, t: OWNER.t, action: 'create', card: d, photo });
+      $('madeTitle').textContent = d.name + "'s card is live!";
+      $('madeCard').textContent = j.cardUrl; $('madeOpen').href = j.cardUrl; $('madeEdit').textContent = j.editUrl;
+      $('madeBox').hidden = false; $('madeBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      say(j.left ? `Card created. You can make ${j.left} more.` : 'Card created. That was your last extra card.');
+      $('go').hidden = true;
+    } else {
+      say('Opening the secure payment page…');
+      const j = await post('/api/create', { card: d, photo, plan: plan() });
+      location.href = j.checkoutUrl;
+    }
+  }catch(e){ say(e.message, true) }
+  finally{ busy = false; $('go').disabled = false }
+};
+
+// copy buttons
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-copy]'); if(!b) return;
+  const el = $(b.dataset.copy);
+  try{ await navigator.clipboard.writeText(el.textContent); b.textContent = 'Copied!' }catch{ const r = document.createRange(); r.selectNodeContents(el); getSelection().removeAllRanges(); getSelection().addRange(r); b.textContent = 'Selected: press Ctrl + C' }
+});
+const esc = s => String(s || '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+function showMine(j){
+  const list = j.extraCards || [], max = j.maxExtras || 5, T = encodeURIComponent(EDIT.t);
+  $('maxEx').textContent = max; $('mine').hidden = false;
+  const row = (c, main) => `<div class="cardrow"><div class="who"><b>${esc(c.name)}${main ? ' (your card)' : ''}</b><span>${esc(c.role || '')}</span></div><div class="acts">
+    <a class="btn" href="/c/${encodeURIComponent(c.slug)}" target="_blank" rel="noopener">View</a>
+    ${main ? '' : `<a class="btn" href="/?s=${encodeURIComponent(c.slug)}&t=${T}">Edit</a><button class="btn danger" type="button" data-del="${esc(c.slug)}">Delete</button>`}</div></div>`;
+  $('mineList').innerHTML = row({ slug: EDIT.s, name: j.name, role: j.role }, true) + list.map(c => row(c, false)).join('');
+  const left = max - list.length;
+  $('newExtra').textContent = left > 0 ? `Make a new card (${left} of ${max} left)` : `All ${max} extra cards used`;
+  if(left > 0 && j.status === 'active') $('newExtra').href = `/?owner=${encodeURIComponent(EDIT.s)}&t=${T}`; else { $('newExtra').removeAttribute('href'); $('newExtra').style.opacity = .6 }
+}
+$('mineList').addEventListener('click', async e => {
+  const b = e.target.closest('[data-del]'); if(!b) return;
+  if(b.dataset.sure !== '1'){ b.dataset.sure = '1'; b.textContent = 'Tap again to delete'; setTimeout(() => { b.dataset.sure = ''; b.textContent = 'Delete' }, 5000); return }
+  try{ await post('/api/extra', { s: EDIT.s, t: EDIT.t, action: 'delete', slug: b.dataset.del }); say('That card was deleted.'); load() }catch(err){ say(err.message, true) }
+});
+
+let load = () => {};
+if(OWNER){
+  $('heroNew').hidden = true; $('heroExtra').hidden = false; $('planBox').hidden = true; $('go').textContent = 'Create this card';
+  document.title = 'Make an extra card · ANU Life Cards';
+  $('backMine2').href = `/?s=${encodeURIComponent(OWNER.s)}&t=${encodeURIComponent(OWNER.t)}`;
+  $('madeAnother').onclick = () => location.reload();
+  showThumb(); preview();
+} else if(EDIT){
+  $('heroNew').hidden = true; $('heroEdit').hidden = false; $('planBox').hidden = true; $('go').textContent = 'Save changes';
+  document.title = 'Edit your card · ANU Life Cards';
+  $('viewLink').href = '/c/' + encodeURIComponent(EDIT.s);
+  $('portalBtn').onclick = async () => { try{ const j = await post('/api/portal', EDIT); location.href = j.url }catch(e){ say(e.message, true) } };
+  load = () => fetch(`/api/card?s=${encodeURIComponent(EDIT.s)}&t=${encodeURIComponent(EDIT.t)}`).then(r => r.json().then(j => ({ ok: r.ok, j }))).then(async ({ ok, j }) => {
+    if(!ok){ say(j.error || 'We could not load your card.', true); return }
+    fill(j);
+    if(j.plan === 'once'){
+      $('portalBtn').hidden = true; $('lockNote').hidden = false; $('go').hidden = true;
+      f.querySelectorAll('fieldset').forEach(x => x.disabled = true);
+      document.querySelector('#heroEdit h1').textContent = 'Your card';
+      document.querySelector('#heroEdit > p').hidden = true;
+    } else if(j.parent){
+      $('portalBtn').hidden = true; $('viewLink').textContent = 'View this card';
+      document.querySelector('#heroEdit h1').textContent = 'Edit ' + (j.name || 'this') + "'s card";
+      if(j.viaOwner){ $('backMine').hidden = false; $('backMine').href = `/?s=${encodeURIComponent(j.parent)}&t=${encodeURIComponent(EDIT.t)}` }
+    } else showMine(j);
+    if(j.photoUrl){ try{ const b = await (await fetch(j.photoUrl)).blob(); photo = await new Promise(res => { const r = new FileReader(); r.onload = () => res(r.result); r.readAsDataURL(b) }) }catch{} }
+    showThumb(); preview();
+    if(j.plan === 'once'){ say(j.status === 'active' ? 'Your card is live.' : 'Your payment has not gone through yet, so the card is not live.', j.status !== 'active'); return }
+    say(j.status === 'active' ? 'Your card is live. Change anything, then press Save changes.' : j.status === 'pending' ? 'Your payment has not gone through yet, so the card is not live.' : 'Your card is switched off because the subscription ended or was not paid.', j.status !== 'active');
+  }).catch(() => say('We could not load your card. Check your connection.', true));
+  say('Loading your card…'); load();
+} else {
+  const setBtn = () => { $('go').textContent = PRICE[plan()] };
+  f.addEventListener('change', e => { if(e.target.name === 'plan') setBtn() }); setBtn();
+  if(q.get('back')) $('backNote').hidden = false;
+  try{ const s = JSON.parse(localStorage.getItem('anuCardDraft') || 'null'); if(s){ fill(s.d || {}); photo = s.photo || '' } }catch{}
+  showThumb(); preview();
+}
+</script>
+</body>
+</html>
